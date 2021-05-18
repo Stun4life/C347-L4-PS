@@ -49,7 +49,7 @@ public class ThirdActivity extends AppCompatActivity implements View.OnClickList
         songTitleEditText = findViewById(R.id.song_title_edit_text);
         singersEditText = findViewById(R.id.singers_edit_text);
         yearEditText = findViewById(R.id.year_edit_text);
-        songIDTextView.setText(selectedSong.getId());
+        songIDTextView.setText(selectedSong.getId() + "");
 
         updateButton = findViewById(R.id.update_button);
         deleteButton = findViewById(R.id.delete_button);
