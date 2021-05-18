@@ -22,7 +22,7 @@ public class SecondActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second);
+        setContentView(R.layout.activity_third);
 
         ListView listview = findViewById(R.id.lv);
         Button btnShow = findViewById(R.id.btnShow);
@@ -48,7 +48,7 @@ public class SecondActivity extends AppCompatActivity {
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Song target = al.get(position);
                 Intent i = new Intent(SecondActivity.this, ThirdActivity.class);
                 i.putExtra("data", target);

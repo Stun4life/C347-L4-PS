@@ -12,9 +12,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ModifySongActivity extends AppCompatActivity implements View.OnClickListener {
+public class ThirdActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = ModifySongActivity.class.getSimpleName();
+    private static final String TAG = ThirdActivity.class.getSimpleName();
 
     // Database Helper
     DBHelper dbHelper = new DBHelper(this);
