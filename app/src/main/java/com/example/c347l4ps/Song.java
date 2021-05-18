@@ -9,8 +9,7 @@ public class Song implements Serializable {
     private int year;
     private int stars;
 
-    public Song(int id, String title, String singers, int year, int stars) {
-        this.id = id;
+    public Song(String title, String singers, int year, int stars) {
         this.title = title;
         this.singers = singers;
         this.year = year;
