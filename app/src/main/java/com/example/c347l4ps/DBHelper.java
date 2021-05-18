@@ -86,6 +86,8 @@ public class DBHelper extends SQLiteOpenHelper {
         String[] args = {String.valueOf(data.getId())};
         int result = db.update(TABLE_SONG, values, condition, args);
         db.close();
+
+        Log.d("DBHelper", "result: " + result);
         return result;
     }
     public int deleteSong(int id){
