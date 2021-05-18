@@ -39,7 +39,7 @@ public class SongArrayAdapter extends ArrayAdapter<Song> {
         Song song = songs.get(position);
 
         // Set Data of Views
-        tvYear.setText(song.getYear());
+        tvYear.setText("" + song.getYear());
         tvSong.setText(song.getTitle());
         tvName.setText(song.getSingers());
         ratingBar.setRating((float) song.getStars());

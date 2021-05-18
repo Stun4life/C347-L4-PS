@@ -24,7 +24,7 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third);
 
-        ListView listview = findViewById(R.id.lv);
+        lv = findViewById(R.id.lv);
         Button btnShow = findViewById(R.id.btnShow);
         al = new ArrayList<Song>();
         aa = new ArrayAdapter<Song>(this, android.R.layout.simple_list_item_1, al);
@@ -34,7 +34,7 @@ public class SecondActivity extends AppCompatActivity {
         ArrayList<Song> songs = db.getAllSongs();
         aa = new SongArrayAdapter(this, R.layout.row, songs);
 
-        listview.setAdapter(aa);
+        lv.setAdapter(aa);
 
         btnShow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,9 +50,9 @@ public class SecondActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Song target = al.get(position);
-                Intent i = new Intent(SecondActivity.this, ThirdActivity.class);
-                i.putExtra("data", target);
-                startActivityForResult(i, 5);
+                Intent thirdActivity = new Intent(SecondActivity.this, ThirdActivity.class);
+                thirdActivity.putExtra("data", target);
+                startActivityForResult(thirdActivity, 5);
             }
         });
     }

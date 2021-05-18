@@ -51,14 +51,16 @@ public class MainActivity extends AppCompatActivity {
                     int selectedRating = Integer.parseInt((String) selectedRatingRadio.getText());
 
 
-//                    DBHelper dbh = new DBHelper(MainActivity.this);
-//
-//                    long inserted_id = dbh.insertSong(title, singer, year, selectedRating);
-//                    dbh.close();
-//
-//                    if(inserted_id != -1){
-//                        Toast.makeText(MainActivity.this, "Song has been successfully added", Toast.LENGTH_SHORT).show();
-//                    }
+                    DBHelper dbh = new DBHelper(MainActivity.this);
+
+                    Song song = new Song(title, singer, year, selectedRating);
+
+                    long inserted_id = dbh.insertSong(song);
+                    dbh.close();
+
+                    if(inserted_id != -1){
+                        Toast.makeText(MainActivity.this, "Song has been successfully added", Toast.LENGTH_SHORT).show();
+                    }
 
 
                 }else{
@@ -72,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
         btnShowList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent showActivity = new Intent(MainActivity.this, SecondActivity.class);
-//                startActivity(showActivity);
+                Intent showActivity = new Intent(MainActivity.this, SecondActivity.class);
+                startActivity(showActivity);
             }
         });
 
