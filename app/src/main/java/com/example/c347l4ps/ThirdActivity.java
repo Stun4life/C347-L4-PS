@@ -17,7 +17,7 @@ public class ThirdActivity extends AppCompatActivity implements View.OnClickList
     private static final String TAG = ThirdActivity.class.getSimpleName();
 
     // Database Helper
-    DBHelper dbHelper = new DBHelper(this);
+    private DBHelper dbHelper = new DBHelper(this);
 
     // Data
     private Song selectedSong;
@@ -41,7 +41,7 @@ public class ThirdActivity extends AppCompatActivity implements View.OnClickList
 
         // Retrieved and set selected song
         Intent intent = getIntent();
-        selectedSong = (Song) intent.getSerializableExtra("song");
+        selectedSong = (Song) intent.getSerializableExtra("data");
     }
 
     private void initViews() {
