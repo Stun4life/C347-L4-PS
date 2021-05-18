@@ -42,7 +42,8 @@
         android:id="@+id/etSongYear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter year of release here"/>
+        android:hint="Enter year of release here"
+        android:inputType="number"/>
 
     <TextView
         android:layout_width="match_parent"

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
                 if(!etSongTitle.getText().toString().equals("") && !etSingers.getText().toString().equals("") && !etYear.getText().toString().equals("")){
                     String title = etSongTitle.getText().toString();
                     String singer = etSingers.getText().toString();
-                    int year = Integer.parseInt(etYear.getText().toString());
+
+                    String stringYear = etYear.getText().toString();
 
                     // get selected radio button from radioGroup
                     int selectedId = ratingRadioGroup.getCheckedRadioButtonId();
@@ -50,18 +52,23 @@ public class MainActivity extends AppCompatActivity {
                     selectedRatingRadio = (RadioButton) findViewById(selectedId);
                     int selectedRating = Integer.parseInt((String) selectedRatingRadio.getText());
 
+                    try {
+                        int intYear = Integer.parseInt(stringYear);
+                        //Log.i("",num+" is a number");
+                        DBHelper dbh = new DBHelper(MainActivity.this);
 
-                    DBHelper dbh = new DBHelper(MainActivity.this);
+                        Song song = new Song(title, singer, intYear, selectedRating);
 
-                    Song song = new Song(title, singer, year, selectedRating);
+                        long inserted_id = dbh.insertSong(song);
+                        dbh.close();
 
-                    long inserted_id = dbh.insertSong(song);
-                    dbh.close();
+                        if(inserted_id != -1){
+                            Toast.makeText(MainActivity.this, "Song has been successfully added", Toast.LENGTH_SHORT).show();
+                        }
 
-                    if(inserted_id != -1){
-                        Toast.makeText(MainActivity.this, "Song has been successfully added", Toast.LENGTH_SHORT).show();
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(MainActivity.this, "Invalid year", Toast.LENGTH_SHORT).show();
                     }
-
 
                 }else{
                     Toast.makeText(MainActivity.this,

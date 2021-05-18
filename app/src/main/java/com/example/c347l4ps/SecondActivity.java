@@ -27,9 +27,6 @@ public class SecondActivity extends AppCompatActivity {
 
         lv = findViewById(R.id.lv);
         Button btnShow = findViewById(R.id.btnShow);
-        al = new ArrayList<Song>();
-        aa = new ArrayAdapter<Song>(this, android.R.layout.simple_list_item_1, al);
-        lv.setAdapter(aa);
 
         DBHelper db = new DBHelper(this);
         al = db.getAllSongs();
@@ -57,7 +54,9 @@ public class SecondActivity extends AppCompatActivity {
                 Song target = al.get(position);
                 Intent thirdActivity = new Intent(SecondActivity.this, ThirdActivity.class);
                 thirdActivity.putExtra("data", target);
+
                 startActivityForResult(thirdActivity, 5);
+
             }
         });
     }

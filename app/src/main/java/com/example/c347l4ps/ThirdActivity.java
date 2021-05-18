@@ -43,13 +43,11 @@ public class ThirdActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = getIntent();
         selectedSong = (Song) intent.getSerializableExtra("data");
 
-        // Set Fields
         songIDTextView.setText(selectedSong.getId() + "");
         songTitleEditText.setText(selectedSong.getTitle());
-        singersEditText.setText(selectedSong.getSingers());
+        singersEditText.setText(selectedSong.getSingers() + "");
         yearEditText.setText(selectedSong.getYear() + "");
         ratingBar.setRating(selectedSong.getStars());
-
     }
 
     private void initViews() {

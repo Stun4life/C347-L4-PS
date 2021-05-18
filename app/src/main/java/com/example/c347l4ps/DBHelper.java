@@ -81,6 +81,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return songs;
     }
+
     public int updateSong(Song data){
 
         Log.d(TAG, data.toString());
@@ -99,12 +100,16 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.d(TAG, "result: " + result);
         return result;
     }
+
+
     public int deleteSong(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         String condition = COLUMN_ID + " = ?";
         String[] args = {String.valueOf(id)};
         int result = db.delete(TABLE_SONG, condition, args);
         db.close();
+
+
         return result;
     }
 }
