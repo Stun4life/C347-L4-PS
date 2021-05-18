@@ -11,58 +11,87 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class SecondActivity extends AppCompatActivity {
+public class SecondActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    Button btnShow;
-    ArrayAdapter<Song> aa;
-    ArrayList<Song> al;
-    ListView lv;
+    private static final String TAG = SecondActivity.class.getSimpleName();
+
+    // Views
+    private Button btnShow;
+
+    // List View Components
+    private ArrayAdapter<Song> songArrayAdapter;
+    private ArrayList<Song> songs = new ArrayList<>();
+    private ListView listView;
+
+    // Spinner Components
+    private Spinner yearsSpinner;
+    private HashMap<Integer, ArrayList<Song>> songsByYear;
+    private ArrayList<String> years = new ArrayList<>();
+    private ArrayAdapter<String> yearArrayAdapter;
 
     private int REQUEST_CODE_MODIFY = 5;
 
     private boolean displayAll = true;
 
-    DBHelper db = new DBHelper(this);
+    DBHelper dbHelper = new DBHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_third);
+        setContentView(R.layout.activity_second);
 
-        lv = findViewById(R.id.lv);
+        // Initialize Views
+        listView = findViewById(R.id.lv);
         Button btnShow = findViewById(R.id.btnShow);
+        yearsSpinner = findViewById(R.id.years_spinner);
+        yearsSpinner.setOnItemSelectedListener(this);
 
+        // Populate Spinner with Years
+        songsByYear = dbHelper.getSongsByYear();
+        for (Map.Entry<Integer, ArrayList<Song>> entry: songsByYear.entrySet()) {
+            years.add(entry.getKey() + "");
+            Log.d(TAG, entry.getKey() + "");
+        }
 
-        al = db.getAllSongs();
-        aa = new SongArrayAdapter(this, R.layout.row, al);
+        // Initialize Spinner Components
+        yearArrayAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_dropdown_item, years);
+        yearsSpinner.setAdapter(yearArrayAdapter);
 
-        for (Song song: al) {
+        songs.clear();
+        songs.addAll(dbHelper.getAllSongs());
+        songArrayAdapter = new SongArrayAdapter(this, R.layout.song_list_item, songs);
+
+        for (Song song: songs) {
             Log.d("SecondActivity", song.toString() + "\n");
         }
 
-        lv.setAdapter(aa);
+        listView.setAdapter(songArrayAdapter);
 
         btnShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                al.clear();
+                songs.clear();
 
 
                 if(!displayAll){
-                    al.addAll(db.getAllSongs());
+                    songs.addAll(dbHelper.getAllSongs());
                     displayAll = true;
 
                     btnShow.setText("Show All Songs with 5 Stars");
 
                 }else{
-                    ArrayList<Song> allSong = db.getAllSongs();
+                    ArrayList<Song> allSong = dbHelper.getAllSongs();
 
                     for(Song song : allSong){
                         if(song.getStars() == 5){
-                            al.add(song);
+                            songs.add(song);
                         }
                     }
 
@@ -71,14 +100,14 @@ public class SecondActivity extends AppCompatActivity {
                     displayAll = false;
                 }
 
-                aa.notifyDataSetChanged();
+                songArrayAdapter.notifyDataSetChanged();
             }
         });
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Song target = al.get(position);
+                Song target = songs.get(position);
                 Intent thirdActivity = new Intent(SecondActivity.this, ThirdActivity.class);
                 thirdActivity.putExtra("data", target);
 
@@ -101,9 +130,25 @@ public class SecondActivity extends AppCompatActivity {
     }
 
     public void displayAllData(){
-        al.clear();
-        al.addAll(db.getAllSongs());
+        songs.clear();
+        songs.addAll(dbHelper.getAllSongs());
 
-        aa.notifyDataSetChanged();
+        songArrayAdapter.notifyDataSetChanged();
+    }
+
+
+    // Item in Spinner is Selected
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Log.e(TAG, "in onItemSelected");
+        int year = Integer.parseInt(years.get(position));
+        songs.clear();
+        songs.addAll(songsByYear.get(year));
+        songArrayAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Do Nothing
     }
 }

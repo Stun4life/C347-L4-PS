@@ -5,9 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -109,7 +113,62 @@ public class DBHelper extends SQLiteOpenHelper {
         int result = db.delete(TABLE_SONG, condition, args);
         db.close();
 
-
         return result;
     }
+
+    // Sort By Year
+    public HashMap<Integer, ArrayList<Song>> getSongsByYear() {
+
+        // Map Data Structure - a year can have many songs
+        // key -> Year, value -> Songs
+        HashMap<Integer, ArrayList<Song>> hashMap = new HashMap<>();
+
+        // Get all songs
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+        Cursor cursor = readableDatabase.query(
+                TABLE_SONG,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String title = cursor.getString(1);
+                String singers = cursor.getString(2);
+                int year = cursor.getInt(3);
+                int stars = cursor.getInt(4);
+
+                Song song = new Song(title, singers, year, stars);
+                song.setId(id);
+
+                if (!hashMap.containsKey(year)) {
+                    // create an array if the year of the song is not in the map
+                    // add song to songs array
+                    // new key value pair where key is the year
+                    ArrayList<Song> songs = new ArrayList<>();
+                    songs.add(song);
+                    hashMap.put(year, songs);
+                } else {
+                    // add to an existing songs array
+                    // update the value of key (year) to the update songs array
+                    ArrayList<Song> songs = hashMap.get(year);
+                    songs.add(song);
+                    hashMap.put(year, songs);
+                }
+
+            } while (cursor.moveToNext());
+        }
+
+        // check if all keys (years) are distinct
+        for (Map.Entry<Integer, ArrayList<Song>> entry: hashMap.entrySet()) {
+            Log.d(TAG + "in getSongsByYear", entry.getKey() + "");
+        }
+
+        return hashMap;
+    }
+
 }

@@ -31,7 +31,7 @@ public class ThirdActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_modify_song);
+        setContentView(R.layout.activity_third);
 
         // Initialize Views
         initViews();
