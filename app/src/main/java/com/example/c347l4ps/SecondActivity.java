@@ -17,9 +17,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SecondActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class SecondActivity extends AppCompatActivity
+        implements AdapterView.OnItemSelectedListener, View.OnClickListener, AdapterView.OnItemClickListener{
 
     private static final String TAG = SecondActivity.class.getSimpleName();
+
+    // Database Helper
+    private final DBHelper dbHelper = new DBHelper(this);
 
     // Views
     private Button btnShow;
@@ -39,7 +43,6 @@ public class SecondActivity extends AppCompatActivity implements AdapterView.OnI
 
     private boolean displayAll = true;
 
-    DBHelper dbHelper = new DBHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +50,10 @@ public class SecondActivity extends AppCompatActivity implements AdapterView.OnI
         setContentView(R.layout.activity_second);
 
         // Initialize Views
-        listView = findViewById(R.id.lv);
-        Button btnShow = findViewById(R.id.btnShow);
-        yearsSpinner = findViewById(R.id.years_spinner);
-        yearsSpinner.setOnItemSelectedListener(this);
+        initViews();
+
+        // Change Title of Top Bar
+        getSupportActionBar().setTitle("Songs");
 
         // Populate Spinner with Years
         songsByYear = dbHelper.getSongsByYear();
@@ -64,59 +67,25 @@ public class SecondActivity extends AppCompatActivity implements AdapterView.OnI
                 this, android.R.layout.simple_spinner_dropdown_item, years);
         yearsSpinner.setAdapter(yearArrayAdapter);
 
+        // Initialize List View Components
         songs.clear();
         songs.addAll(dbHelper.getAllSongs());
         songArrayAdapter = new SongArrayAdapter(this, R.layout.song_list_item, songs);
-
         for (Song song: songs) {
-            Log.d("SecondActivity", song.toString() + "\n");
+            Log.d(TAG, song.toString() + "\n");
         }
-
         listView.setAdapter(songArrayAdapter);
+    }
 
-        btnShow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                songs.clear();
+    private void initViews() {
+        listView = findViewById(R.id.lv);
+        listView.setOnItemClickListener(this::onItemClick);
 
+        btnShow = findViewById(R.id.btnShow);
+        btnShow.setOnClickListener(this::onClick);
 
-                if(!displayAll){
-                    songs.addAll(dbHelper.getAllSongs());
-                    displayAll = true;
-
-                    btnShow.setText("Show All Songs with 5 Stars");
-
-                }else{
-                    ArrayList<Song> allSong = dbHelper.getAllSongs();
-
-                    for(Song song : allSong){
-                        if(song.getStars() == 5){
-                            songs.add(song);
-                        }
-                    }
-
-                    btnShow.setText("Show All Songs");
-
-                    displayAll = false;
-                }
-
-                songArrayAdapter.notifyDataSetChanged();
-            }
-        });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Song target = songs.get(position);
-                Intent thirdActivity = new Intent(SecondActivity.this, ThirdActivity.class);
-                thirdActivity.putExtra("data", target);
-
-                startActivityForResult(thirdActivity, REQUEST_CODE_MODIFY);
-
-            }
-        });
-
-
+        yearsSpinner = findViewById(R.id.years_spinner);
+        yearsSpinner.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -136,6 +105,24 @@ public class SecondActivity extends AppCompatActivity implements AdapterView.OnI
         songArrayAdapter.notifyDataSetChanged();
     }
 
+    private void showSongs() {
+        songs.clear();
+        if(!displayAll){
+            songs.addAll(dbHelper.getAllSongs());
+            displayAll = true;
+            btnShow.setText("Songs with 5 Stars");
+        } else {
+            ArrayList<Song> allSong = dbHelper.getAllSongs();
+            for(Song song : allSong){
+                if(song.getStars() == 5){
+                    songs.add(song);
+                }
+            }
+            btnShow.setText("Show All Songs");
+            displayAll = false;
+        }
+        songArrayAdapter.notifyDataSetChanged();
+    }
 
     // Item in Spinner is Selected
     @Override
@@ -150,5 +137,25 @@ public class SecondActivity extends AppCompatActivity implements AdapterView.OnI
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         // Do Nothing
+    }
+
+    // View is Clicked - Button
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnShow:
+                showSongs();
+                break;
+        }
+    }
+
+    // Item is Clicked in List View
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Song target = songs.get(position);
+        Intent thirdActivity = new Intent(SecondActivity.this, ThirdActivity.class);
+        thirdActivity.putExtra("data", target);
+
+        startActivityForResult(thirdActivity, REQUEST_CODE_MODIFY);
     }
 }

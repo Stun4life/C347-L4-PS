@@ -37,7 +37,7 @@ public class ThirdActivity extends AppCompatActivity implements View.OnClickList
         initViews();
 
         // Change Title of Top Bar
-        getSupportActionBar().setTitle("P05-NDPSongs ~ Modify Song");
+        getSupportActionBar().setTitle("Edit Song");
 
         // Retrieved and set selected song
         Intent intent = getIntent();

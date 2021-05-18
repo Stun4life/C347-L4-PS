@@ -37,7 +37,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
-            android:text="songs with 5 stars"
+            android:text="Songs with 5 Stars"
+            android:textAllCaps="false"
             android:layout_weight="3"/>
 
     </LinearLayout>

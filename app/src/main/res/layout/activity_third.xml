@@ -1,104 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ThirdActivity"
-    android:orientation="vertical"
-    android:layout_marginHorizontal="25dp"
+    android:layout_marginHorizontal="20dp"
     android:layout_marginTop="15dp">
-
-    <!-- Song ID -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Song ID"/>
-
-    <TextView
-        android:id="@+id/song_id_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Song ID Value"/>
-
-    <!-- Song Title -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Song Title"/>
-
-    <EditText
-        android:id="@+id/song_title_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Song Title Value"/>
-
-    <!-- Singers -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Singers"/>
-
-    <EditText
-        android:id="@+id/singers_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Singers Value"/>
-
-    <!-- Year -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Year"/>
-
-    <EditText
-        android:id="@+id/year_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Year Value"/>
-
-    <!-- Stars -->
-    <RatingBar
-        android:id="@+id/rating_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:numStars="5"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:weightSum="2">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_above="@id/buttons_linear_layout">
 
-        <Button
-            android:id="@+id/update_button"
-            android:layout_width="0dp"
+        <!-- Song ID -->
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:text="Update" />
+            android:text="Song ID"
+            android:textSize="15sp"
+            android:textColor="@color/teal_700"/>
 
-        <Button
-            android:id="@+id/delete_button"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/song_id_text_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Delete"/>
+            android:text="Song ID Value"
+            android:textSize="18sp"/>
+
+        <!-- Song Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Song Title"
+            android:textSize="15sp"
+            android:textColor="@color/teal_700"/>
+
+        <EditText
+            android:id="@+id/song_title_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Song Title Value"/>
+
+        <!-- Singers -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Singers"
+            android:textSize="15sp"
+            android:textColor="@color/teal_700"/>
+
+        <EditText
+            android:id="@+id/singers_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Singers Value"/>
+
+        <!-- Year -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Year"
+            android:textSize="15sp"
+            android:textColor="@color/teal_700"/>
+
+        <EditText
+            android:id="@+id/year_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Year Value"/>
+
+        <!-- Song Rating -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Rating"
+            android:textSize="15sp"
+            android:textColor="@color/teal_700"/>
+
+        <RatingBar
+            android:id="@+id/rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:numStars="5"
+            android:textColor="@color/teal_700"/>
+
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/my_cancel_button"
+    <LinearLayout
+        android:id="@+id/buttons_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="Cancel"/>
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp">
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/update_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:text="Update"
+                android:textAllCaps="false"/>
+
+            <Button
+                android:id="@+id/delete_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Delete"
+                android:textAllCaps="false"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/my_cancel_button"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Cancel"
+            android:textAllCaps="false"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

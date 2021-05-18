@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
         btnInsert = findViewById(R.id.btnInsert);
         btnShowList = findViewById(R.id.btnShowList);
 
+        // Change Title of Top Bar
+        getSupportActionBar().setTitle("Add Song");
+
         btnInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
