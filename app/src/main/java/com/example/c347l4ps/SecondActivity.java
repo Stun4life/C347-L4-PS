@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -33,6 +34,10 @@ public class SecondActivity extends AppCompatActivity {
         DBHelper db = new DBHelper(this);
         al = db.getAllSongs();
         aa = new SongArrayAdapter(this, R.layout.row, al);
+
+        for (Song song: al) {
+            Log.d("SecondActivity", song.toString() + "\n");
+        }
 
         lv.setAdapter(aa);
 

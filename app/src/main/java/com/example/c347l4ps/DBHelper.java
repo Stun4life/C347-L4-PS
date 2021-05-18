@@ -10,6 +10,9 @@ import android.util.Log;
 import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
+
+    private static final String TAG = DBHelper.class.getSimpleName();
+
     private static final String DATABASE_NAME = "songList.db";
     private static final int DATABASE_VERSION = 1;
     private static final String TABLE_SONG = "song";
@@ -31,6 +34,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 " "+ COLUMN_YEAR + " INTEGER, "+ COLUMN_STARS + " INTEGER) ";
         db.execSQL(createSongTableSql);
         Log.i("info", "created tables");
+        Log.d(TAG, createSongTableSql);
     }
 
     @Override
@@ -68,7 +72,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 int songYear = cursor.getInt(3);
                 int songStars = cursor.getInt(4);
                 Song song = new Song(songTitle, songSingers, songYear, songStars);
+                song.setId(id);
                 songs.add(song);
+
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -76,23 +82,26 @@ public class DBHelper extends SQLiteOpenHelper {
         return songs;
     }
     public int updateSong(Song data){
+
+        Log.d(TAG, data.toString());
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_TITLE, data.getTitle());
         values.put(COLUMN_SINGERS, data.getSingers());
         values.put(COLUMN_YEAR, data.getYear());
         values.put(COLUMN_STARS, data.getStars());
-        String condition = COLUMN_ID + "= ?";
+        String condition = COLUMN_ID + " = ?";
         String[] args = {String.valueOf(data.getId())};
         int result = db.update(TABLE_SONG, values, condition, args);
         db.close();
 
-        Log.d("DBHelper", "result: " + result);
+        Log.d(TAG, "result: " + result);
         return result;
     }
     public int deleteSong(int id){
         SQLiteDatabase db = this.getWritableDatabase();
-        String condition = COLUMN_ID + "= ?";
+        String condition = COLUMN_ID + " = ?";
         String[] args = {String.valueOf(id)};
         int result = db.delete(TABLE_SONG, condition, args);
         db.close();
