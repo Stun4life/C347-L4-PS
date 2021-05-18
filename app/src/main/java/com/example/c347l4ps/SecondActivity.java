@@ -1,5 +1,6 @@
 package com.example.c347l4ps;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -20,6 +21,12 @@ public class SecondActivity extends AppCompatActivity {
     ArrayList<Song> al;
     ListView lv;
 
+    private int REQUEST_CODE_MODIFY = 5;
+
+    private boolean displayAll = true;
+
+    DBHelper db = new DBHelper(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +35,7 @@ public class SecondActivity extends AppCompatActivity {
         lv = findViewById(R.id.lv);
         Button btnShow = findViewById(R.id.btnShow);
 
-        DBHelper db = new DBHelper(this);
+
         al = db.getAllSongs();
         aa = new SongArrayAdapter(this, R.layout.row, al);
 
@@ -42,7 +49,27 @@ public class SecondActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 al.clear();
-                al.addAll(db.getAllSongs());
+
+
+                if(!displayAll){
+                    al.addAll(db.getAllSongs());
+                    displayAll = true;
+
+                    btnShow.setText("Show All Songs with 5 Stars");
+
+                }else{
+                    ArrayList<Song> allSong = db.getAllSongs();
+
+                    for(Song song : allSong){
+                        if(song.getStars() == 5){
+                            al.add(song);
+                        }
+                    }
+
+                    btnShow.setText("Show All Songs");
+
+                    displayAll = false;
+                }
 
                 aa.notifyDataSetChanged();
             }
@@ -55,9 +82,28 @@ public class SecondActivity extends AppCompatActivity {
                 Intent thirdActivity = new Intent(SecondActivity.this, ThirdActivity.class);
                 thirdActivity.putExtra("data", target);
 
-                startActivityForResult(thirdActivity, 5);
+                startActivityForResult(thirdActivity, REQUEST_CODE_MODIFY);
 
             }
         });
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK && requestCode == REQUEST_CODE_MODIFY){
+            displayAllData();
+        }
+
+    }
+
+    public void displayAllData(){
+        al.clear();
+        al.addAll(db.getAllSongs());
+
+        aa.notifyDataSetChanged();
     }
 }
