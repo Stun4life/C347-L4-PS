@@ -31,8 +31,8 @@ public class SecondActivity extends AppCompatActivity {
         lv.setAdapter(aa);
 
         DBHelper db = new DBHelper(this);
-        ArrayList<Song> songs = db.getAllSongs();
-        aa = new SongArrayAdapter(this, R.layout.row, songs);
+        al = db.getAllSongs();
+        aa = new SongArrayAdapter(this, R.layout.row, al);
 
         lv.setAdapter(aa);
 
